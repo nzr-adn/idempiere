@@ -167,7 +167,7 @@ public class CompositeADTabbox extends AbstractADTabbox
 						showLastError();
 					} else {
 						tabPanel.getGridTab().dataRefreshAll(true, true);
-						tabPanel.getGridTab().refreshParentTabs();
+						tabPanel.getGridTab().refreshParentTabs(true);
 					}
 				}
 				else if (DetailPane.ON_DELETE_EVENT.equals(event.getName())) {
@@ -537,7 +537,8 @@ public class CompositeADTabbox extends AbstractADTabbox
     			hasChanges = true;
     		}
     		if (hasChanges) {
-    			headerTab.getDetailPane().getParent().invalidate();
+    			if (headerTab.getDetailPane().getParent() != null)
+    				headerTab.getDetailPane().getParent().invalidate();
     		}
     	}
 	}

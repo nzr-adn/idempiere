@@ -49,7 +49,7 @@ public class MTree extends MTree_Base
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -212066085945645584L;
+	private static final long serialVersionUID = 8572653421094006917L;
 
 	/**
 	 *  Default Constructor.
@@ -281,7 +281,7 @@ public class MTree extends MTree_Base
 		try
 		{
 			// load Node details - addToTree -> getNodeDetail
-			getNodeDetails(); 
+			getNodeDetails(linkColName, linkID); 
 			//
 			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			int idx = 1;
@@ -445,7 +445,7 @@ public class MTree extends MTree_Base
 	 *  - Node_ID
 	 *  The SQL contains security/access control
 	 */
-	private void getNodeDetails ()
+	private void getNodeDetails (String linkColName, int linkID)
 	{
 		//  SQL for Node Info
 		StringBuilder sqlNode = new StringBuilder();
@@ -506,7 +506,19 @@ public class MTree extends MTree_Base
 			sqlNode.append("t.Description,t.IsSummary,").append(color)
 			.append(" FROM ").append(tableName).append(" t ");
 			if (!m_editable)
-			sqlNode.append(" WHERE t.IsActive='Y'");
+			{
+				if (Util.isEmpty(linkColName) || linkID==0 )
+					sqlNode.append(" WHERE t.IsActive='Y'");
+				else
+					sqlNode.append(" WHERE t.IsActive='Y' AND t.").append(linkColName).append("=").append(linkID);
+
+			}else {
+
+				if (!Util.isEmpty(linkColName) && linkID > 0)
+					sqlNode.append(" WHERE t.").append(linkColName).append("=").append(linkID);
+
+			}
+			
 		}  else if (isValueDisplayed()) {
 			sqlNode.append("SELECT t.").append(columnNameX)
 			.append("_ID, t.Value || ' - ' || t.Name, t.Description, t.IsSummary,").append(color)
@@ -614,8 +626,20 @@ public class MTree extends MTree_Base
 						}
 					}
 					else if (X_AD_Menu.ACTION_Process.equals(actionColor) 
-						|| X_AD_Menu.ACTION_Report.equals(actionColor))
+						|| X_AD_Menu.ACTION_Report.equals(actionColor)) {
 						access = role.getProcessAccess(AD_Process_ID);
+
+						// Get ProcessCustomization
+						MUserDefProc userDef = null; 
+						userDef = MUserDefProc.getBestMatch(getCtx(), AD_Process_ID);
+						if (userDef != null)
+						{
+							if (userDef.getName() != null)
+								name = userDef.getName();
+							if (userDef.getDescription() != null)
+								description = userDef.getDescription();
+						}
+					}
 					else if (X_AD_Menu.ACTION_Form.equals(actionColor))
 						access = role.getFormAccess(AD_Form_ID);
 					else if (X_AD_Menu.ACTION_WorkFlow.equals(actionColor))

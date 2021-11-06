@@ -34,6 +34,7 @@ import org.adempiere.webui.util.ZKUpdateUtil;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.model.MDocType;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -134,6 +135,11 @@ public class InfoProductWindow extends InfoWindow {
 		}
 		// IDEMPIERE-1979
 		prevWhereClause = where.toString();
+		if (MSysConfig.getBooleanValue(MSysConfig.INFO_PRODUCT_SHOW_PRODUCTS_WITHOUT_PRICE, false, Env.getAD_Client_ID(Env.getCtx()))) {
+			prevWhereClause = prevWhereClause.replaceAll(
+					"AND pr.M_PriceList_Version_ID = \\?",
+					"AND (pr.M_PriceList_Version_ID=? OR pr.M_PriceList_Version_ID IS NULL)");
+		}
 		return prevWhereClause;
 	}
 
@@ -443,9 +449,15 @@ public class InfoProductWindow extends InfoWindow {
 	@Override
 	protected void initParameters() {
 		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID");
-		int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_PriceList_ID");
-		
-		int M_PriceList_Version_ID = findPLV (M_PriceList_ID);
+
+		String usePriceList=Env.getContext(Env.getCtx(), p_WindowNo, Env.PREFIX_PREDEFINED_VARIABLE+"UsePriceListInProductInfo");
+		int M_PriceList_Version_ID = 0;
+		if ("Y".equalsIgnoreCase(usePriceList))
+		{
+			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_PriceList_ID");
+
+			M_PriceList_Version_ID = findPLV(M_PriceList_ID);
+		}
 		//	Set Warehouse
 		if (M_Warehouse_ID == 0)
 			M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID");

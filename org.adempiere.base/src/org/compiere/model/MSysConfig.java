@@ -43,7 +43,7 @@ public class MSysConfig extends X_AD_SysConfig
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8581992138870649241L;
+	private static final long serialVersionUID = -7412406998622886021L;
 
 	public static final String ADDRESS_VALIDATION = "ADDRESS_VALIDATION";
     public static final String ALERT_SEND_ATTACHMENT_AS_XLS = "ALERT_SEND_ATTACHMENT_AS_XLS";
@@ -105,6 +105,7 @@ public class MSysConfig extends X_AD_SysConfig
     public static final String IMAGE_DB_STORAGE_SAVE_AS_ZIP = "IMAGE_DB_STORAGE_SAVE_AS_ZIP";
     public static final String INFO_DEFAULTSELECTED = "INFO_DEFAULTSELECTED";
     public static final String INFO_DOUBLECLICKTOGGLESSELECTION = "INFO_DOUBLECLICKTOGGLESSELECTION";
+	public static final String INFO_PRODUCT_SHOW_PRODUCTS_WITHOUT_PRICE = "INFO_PRODUCT_SHOW_PRODUCTS_WITHOUT_PRICE";
     public static final String Invoice_ReverseUseNewNumber = "Invoice_ReverseUseNewNumber";
     public static final String JASPER_SWAP_MAX_PAGES = "JASPER_SWAP_MAX_PAGES";
     public static final String LASTRUN_RECORD_COUNT = "LASTRUN_RECORD_COUNT";
@@ -124,6 +125,8 @@ public class MSysConfig extends X_AD_SysConfig
     public static final String MAX_RESULTS_PER_SEARCH_IN_DOCUMENT_CONTROLLER = "MAX_RESULTS_PER_SEARCH_IN_DOCUMENT_CONTROLLER";
     public static final String MAX_TEXT_LENGTH_ON_GRID_VIEW = "MAX_TEXT_LENGTH_ON_GRID_VIEW";
     public static final String MENU_INFOUPDATER_SLEEP_MS = "MENU_INFOUPDATER_SLEEP_MS";
+    public static final String MFA_NTP_TIMEOUT_IN_MILLISECONDS = "MFA_NTP_TIMEOUT_IN_MILLISECONDS";
+	public static final String MFA_REGISTERED_DEVICE_EXPIRATION_DAYS = "MFA_REGISTERED_DEVICE_EXPIRATION_DAYS";
     public static final String MONITOR_INITIAL_WAIT_FOR_CLUSTER_IN_SECONDS = "MONITOR_INITIAL_WAIT_FOR_CLUSTER_IN_SECONDS";
     public static final String MONITOR_MAX_WAIT_FOR_CLUSTER_IN_SECONDS = "MONITOR_MAX_WAIT_FOR_CLUSTER_IN_SECONDS";
     public static final String MFG_ValidateCostsDifferenceOnCreate = "MFG_ValidateCostsDifferenceOnCreate";
